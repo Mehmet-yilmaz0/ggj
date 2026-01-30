@@ -7,7 +7,7 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] private float _attackSpeed;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _speed;
-
+    bool isDead=false;
     public float health
     {
         get
@@ -17,9 +17,10 @@ public abstract class Entity : MonoBehaviour
         set
         {
             _health = value;
-            if (_health <= 0)
+            if (_health <= 0 && !isDead)
             {
                 _health = 0;
+                isDead = true;
                 Death();
             }
         }
@@ -49,11 +50,11 @@ public abstract class Entity : MonoBehaviour
     public float attackRange {
         get
         {
-            return _attackDamage;
+            return _attackRange;
         }
         set
         {
-            _attackDamage = value;
+            _attackRange = value;
         }
     }
     public float attackSpeed {
@@ -67,7 +68,7 @@ public abstract class Entity : MonoBehaviour
         }
     }
     public float attackTimer;
-    public abstract void Attack(Entity entity);
+    public abstract void Attack(Entity entity, float bonusattack = 0);
     public abstract void Move();
     public void GetDamage(float damage)
     {

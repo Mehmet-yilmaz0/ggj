@@ -1,3 +1,4 @@
+using NUnit;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class Player : Entity
     public Mask wearedMask;
     LayerMask enemyLayer;
     Rigidbody2D rb;
-
+    int lastButton = 0;//1sað,2sol,3yukarý,4aþaðý
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -19,7 +20,7 @@ public class Player : Entity
     private void Update()
     {
         ChangeMaskKey();
-        if (attackTimer <= 0f)DetectEnemy();
+        if (attackTimer <= 0f)BaseAttack();
         Move();
         if (attackTimer > 0)
             attackTimer -= Time.deltaTime;
@@ -68,13 +69,20 @@ public class Player : Entity
         }
     }
 
-    public override void Attack(Entity ent)
+    public override void Attack(Entity ent, float bonusattack = 0)
     {
-        if (attackTimer == 0)
-        {
-            attackTimer = attackSpeed;
-            ent.GetDamage(attackDamage);
-        }  
+        ent.GetDamage(attackDamage+bonusattack);
+    }
+    public void TekliHasar(Entity ent,float bonusattack= 0)
+    {
+        attackTimer = attackSpeed;
+        Attack(ent, bonusattack);
+    }
+    public void AlanHasar(List<Entity> ents, float bonusattack=0)
+    {
+        attackTimer = attackSpeed;
+        foreach(Entity ent in ents)
+            Attack(ent,bonusattack);
     }
 
     public override void Move()
@@ -82,28 +90,51 @@ public class Player : Entity
         float x = 0f;
         float y = 0f;
 
-        if (Input.GetKey(KeyCode.A)) x = -1f;
-        if (Input.GetKey(KeyCode.D)) x = 1f;
-        if (Input.GetKey(KeyCode.S)) y = -1f;
-        if (Input.GetKey(KeyCode.W)) y = 1f;
+        if (Input.GetKey(KeyCode.A)) { x = -1f; lastButton = 2; }
+        if (Input.GetKey(KeyCode.D)) {x = 1f; lastButton = 1; }
+        if (Input.GetKey(KeyCode.S)) {y = -1f; lastButton = 4; }
+        if (Input.GetKey(KeyCode.W)) { y = 1f; lastButton = 3; }
 
         Vector2 dir = new Vector2(x, y).normalized;
         rb.linearVelocity = dir * speed;
     }
+    public float dashForce = 8f;
+
+    public void Dash()
+    {
+        Vector2 dir = Vector2.zero;
+
+        if (lastButton == 3) dir = Vector2.up;
+        else if (lastButton == 2) dir = Vector2.left;
+        else if (lastButton == 4) dir = Vector2.down;
+        else if (lastButton == 1) dir = Vector2.right;
+
+        if (dir == Vector2.zero) return;
+
+        rb.linearVelocity = Vector2.zero; 
+        rb.AddForce(dir * dashForce, ForceMode2D.Impulse);
+    }
 
     public override void Death()
     {
-        throw new System.NotImplementedException();
+        
     }
-    void DetectEnemy()
+    void BaseAttack()
     {
-        Entity entity = GetClosestEnemy();
-        if (entity != null)
+        if (wearedMask == null)
         {
-            Attack(entity);
+            Entity entity = GetClosestEnemy();
+            if (entity != null)
+            {
+                TekliHasar(entity);
+            }
+        }
+        else
+        {
+            wearedMask.BaseAttack();
         }
     }
-    Entity GetClosestEnemy()
+    public Entity GetClosestEnemy()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
@@ -127,6 +158,92 @@ public class Player : Entity
             }
         }
         return closest;
+    }
+    public List<Entity> GetClosestEnemies(float rangeAngle, float rangeBonus = 0)
+    {
+        List<Entity> result = new List<Entity>();
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position,
+            attackRange+rangeBonus,
+            enemyLayer
+        );
+
+        if (hits.Length == 0) return result;
+
+        Entity closest = GetClosestEnemy();
+
+        if (closest == null) return result;
+
+ 
+        Vector2 baseDir = (closest.transform.position - transform.position).normalized;
+
+        foreach (var hit in hits)
+        {
+            Entity ent = hit.GetComponent<Entity>();
+            if (ent == null) continue;
+
+            Vector2 dir = (hit.transform.position - transform.position).normalized;
+            float angle = Vector2.Angle(baseDir, dir);
+
+            if (angle <= rangeAngle * 0.5f)
+            {
+                result.Add(ent);
+            }
+        }
+
+        return result;
+    }
+    public List<Entity> GetClosestEnemiesByCount(int count)
+    {
+        List<Entity> enemies = new List<Entity>();
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position,
+            attackRange,
+            enemyLayer
+        );
+
+        foreach (var hit in hits)
+        {
+            Entity ent = hit.GetComponent<Entity>();
+            if (ent == null) continue;
+
+            enemies.Add(ent);
+        }
+
+        enemies.Sort((a, b) =>
+        {
+            float da = Vector2.Distance(transform.position, a.transform.position);
+            float db = Vector2.Distance(transform.position, b.transform.position);
+            return da.CompareTo(db);
+        });
+
+        if (enemies.Count > count)
+            enemies.RemoveRange(count, enemies.Count - count);
+
+        return enemies;
+    }
+    public List<Entity> GetClosestEnemiesArea(float range)
+    {
+        List<Entity> enemies = new List<Entity>();
+        Entity closest = GetClosestEnemy();
+        if (closest == null)
+            return enemies;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            closest.transform.position,
+            range,
+            enemyLayer
+        );
+        foreach (var hit in hits)
+        {
+            Entity ent = hit.GetComponent<Entity>();
+            if (ent == null) continue;
+            if (ent == this) continue;
+
+            enemies.Add(ent);
+        }
+        return enemies;
     }
 
 }

@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Attack(Entity entity, float bonusattack = 0)
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Death()
     {
-        
+        throw new System.NotImplementedException();
+    }
+
+    public override void Move()
+    {
+        throw new System.NotImplementedException();
     }
 }

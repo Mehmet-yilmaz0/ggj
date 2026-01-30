@@ -1,16 +1,50 @@
 using UnityEngine;
 
-public class Mask : MonoBehaviour
+public abstract class Mask : MonoBehaviour
 {
     public Player player;
-    public float timer {  get; set; }
+    public float timer = 0;
     public bool isOn;
     public int maskIndex;
     public float rangeBonus;
     public float attackSpeedBonus;
     public float attackBonus;
+    public float skill1Timer;
+    public float skill2Timer;
 
-
+    private void Update()
+    {
+        if (!isOn) return;
+        if (isOn)
+        {
+            timer += Time.deltaTime;
+        }
+        else
+        {
+            if(timer!=0)timer = 0;
+        }
+        if (skill1Timer > 0)
+        {
+            skill1Timer-= Time.deltaTime;
+            if (skill1Timer <= 0)
+            {
+                {
+                    skill1Timer = 0f;
+                }
+            }
+        }
+        if (skill2Timer > 0)
+        {
+            skill2Timer -= Time.deltaTime;
+            if (skill2Timer <= 0)
+            {
+                {
+                    skill2Timer = 0f;
+                }
+            }
+        }
+        
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("player"))
@@ -22,6 +56,7 @@ public class Mask : MonoBehaviour
     }
     public void WearMask()
     {
+        player.wearedMask.UnWearMask();
         player.wearedMask = this;
         player.attackDamage += attackBonus;
         player.attackRange += rangeBonus;
@@ -30,9 +65,28 @@ public class Mask : MonoBehaviour
     }
     public void UnWearMask()
     {
-        player.attackDamage += attackBonus;
-        player.attackRange += rangeBonus;
-        player.attackSpeed += attackSpeedBonus;
+        player.attackDamage -= attackBonus;
+        player.attackRange -= rangeBonus;
+        player.attackSpeed -= attackSpeedBonus;
         isOn = false;
     }
+    public void UseSkill(char c)
+    {
+        switch (c)
+        {
+            case 'j':
+                if(timer > 10f)
+                    SkillAttack1();
+                break;
+            case 'k':
+                if (timer > 20f && maskIndex==1)
+                    SkillAttack2();
+                break;
+        }
+        if (timer > 20f && maskIndex != 1)
+            SkillAttack2();
+    }
+    public abstract void BaseAttack();
+    public abstract void SkillAttack1();
+    public abstract void SkillAttack2();
 }
