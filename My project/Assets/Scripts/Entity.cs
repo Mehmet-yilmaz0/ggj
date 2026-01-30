@@ -2,7 +2,12 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
-    private float _health;
+    [SerializeField]private float _health;
+    [SerializeField] private float _attackDamage;
+    [SerializeField] private float _attackSpeed;
+    [SerializeField] private float _attackRange;
+    [SerializeField] private float _speed;
+
     public float health
     {
         get
@@ -19,10 +24,49 @@ public abstract class Entity : MonoBehaviour
             }
         }
     }
-    public float attackDamage { get; set; }
-    public float speed { get; set; }
+    public float attackDamage {
+        get
+        {
+            return _attackDamage;
+        }
+        set
+        {
+            _attackDamage = value;
+        }
+    }
+    public float speed
+    {
+        get
+        {
+            return _speed;
+        }
+        set
+        {
+            _speed = value;
+        }
+    }
 
-    public float attackRange;
+    public float attackRange {
+        get
+        {
+            return _attackDamage;
+        }
+        set
+        {
+            _attackDamage = value;
+        }
+    }
+    public float attackSpeed {
+        get
+        {
+            return _attackSpeed;
+        }
+        set
+        {
+            _attackSpeed = value;
+        }
+    }
+    public float attackTimer;
     public abstract void Attack(Entity entity);
     public abstract void Move();
     public void GetDamage(float damage)

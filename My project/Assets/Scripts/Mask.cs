@@ -6,6 +6,10 @@ public class Mask : MonoBehaviour
     public float timer {  get; set; }
     public bool isOn;
     public int maskIndex;
+    public float rangeBonus;
+    public float attackSpeedBonus;
+    public float attackBonus;
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,10 +23,16 @@ public class Mask : MonoBehaviour
     public void WearMask()
     {
         player.wearedMask = this;
+        player.attackDamage += attackBonus;
+        player.attackRange += rangeBonus;
+        player.attackSpeed += attackSpeedBonus;
         isOn = true;
     }
     public void UnWearMask()
     {
+        player.attackDamage += attackBonus;
+        player.attackRange += rangeBonus;
+        player.attackSpeed += attackSpeedBonus;
         isOn = false;
     }
 }
