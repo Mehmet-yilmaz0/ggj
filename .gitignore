@@ -2,10 +2,12 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
+Logs/
 Library/
 UserSettings/
 Temp/
 .utmp/
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
