@@ -1,5 +1,5 @@
 
-=== Fri Jan 30 16:28:30 2026
+=== Fri Jan 30 18:09:23 2026
 
 Packages were changed.
 Update Mode: mergeDefaultDependencies
@@ -39,10 +39,10 @@ The following packages were added:
   com.unity.modules.accessibility@1.0.0
   com.unity.multiplayer.center@1.0.0
 The following packages were updated:
-  com.unity.collab-proxy from version 2.6.0 to 2.8.2
-  com.unity.ide.rider from version 3.0.31 to 3.0.36
+  com.unity.collab-proxy from version 2.6.0 to 2.7.1
+  com.unity.ide.rider from version 3.0.31 to 3.0.35
   com.unity.ide.visualstudio from version 2.0.22 to 2.0.23
   com.unity.inputsystem from version 1.11.2 to 1.14.0
   com.unity.render-pipelines.universal from version 17.0.3 to 17.0.4
   com.unity.test-framework from version 1.4.5 to 1.5.1
-  com.unity.visualscripting from version 1.9.5 to 1.9.7
+  com.unity.visualscripting from version 1.9.5 to 1.9.6
