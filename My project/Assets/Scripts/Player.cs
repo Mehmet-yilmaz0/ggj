@@ -19,13 +19,17 @@ public class Player : Entity
     }
     private void Update()
     {
-        ChangeMaskKey();
-        if (attackTimer <= 0f)BaseAttack();
-        Move();
-        if (attackTimer > 0)
-            attackTimer -= Time.deltaTime;
-        else attackTimer = 0;
-        UseSkill();
+        if (!isDead)
+        {
+            ChangeMaskKey();
+            if (attackTimer <= 0f)BaseAttack();
+            Move();
+            if (attackTimer > 0)
+                attackTimer -= Time.deltaTime;
+            else attackTimer = 0;
+            UseSkill();
+        }
+        
     }
     void UseSkill()
     {

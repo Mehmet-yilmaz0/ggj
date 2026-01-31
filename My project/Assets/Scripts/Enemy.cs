@@ -1,18 +1,23 @@
+using System;
 using System.Collections;
+using System.ComponentModel;
 using System.Threading;
 using UnityEngine;
 
 public class Enemy : Entity
 {
+    [Tooltip("kullanýcýyý farketme sýnýrý")]
     public float range;
     [SerializeField] LayerMask playerLayer;
     GameObject target;
-    public float rangeBetweenPlayer;
+    float rangeBetweenPlayer;
     Rigidbody2D rb;
     bool canAttack = false;
-    bool isDeath = false;
     [SerializeField] Sprite deathSprite;
     SpriteRenderer spriteRenderer;
+    [Tooltip("1 kýrmýzý, 2 mavi, 3 yeþil, 4 siyah")]
+    [SerializeField]int enemyType;
+    bool istouchingPlayer = false;
     private void Start()
     {
         rb=GetComponent<Rigidbody2D>();
@@ -20,35 +25,51 @@ public class Enemy : Entity
     }
     private void Update()
     {
-        if (!isDeath)
+        if (!isDead)
         {
             attackTimer -= Time.deltaTime;
             FindPlayer();
             Move();
-            Death();
+            if (canAttack && attackTimer<=0) Saldir();
         }
     }
+    public void Saldir()
+    {
+        if (enemyType == 3 || enemyType == 2) SendAttack();
+        if (enemyType == 1 && istouchingPlayer) Exploding(target.GetComponent<Entity>());
+        if (enemyType == 4 && istouchingPlayer) NormalAttack(target.GetComponent<Entity>());
+    }
+
+    private void NormalAttack(Entity ent, float bonusAttack=0)//dokunma hasarý
+    {
+        Attack(ent, bonusAttack);
+    }
+
+    private void Exploding(Entity ent, float bonusAttack = 0)//patlama hasarý
+    {
+        Attack(ent, bonusAttack);
+        Death();//obj pooling deðiþtirme yeri
+    }
+
     public override void Attack(Entity entity, float bonusattack = 0)
     {
+        attackTimer = attackSpeed;
         entity.GetDamage(attackDamage + bonusattack);
     }
-    public void SendAttack()
+    public void SendAttack()//uzaktan hasar
     {
-        if (canAttack && attackTimer <= 0)
+        if (canAttack && attackTimer <= 0 )
         {
             GameObject sendingAttack = AttackParticlePool.instance.Spawn(transform.position, transform.rotation);
             sendingAttack.GetComponent<AttackParticle>().Init(this, target.transform.position);
         }
-    }
+    } 
     public override void Death()
     {
-        if (health <= 0)
-        {
-            isDeath = true;
-            health = 0;
-            spriteRenderer.sprite = deathSprite;
-            DeathAnimation();
-        }
+        isDead = true;
+        health = 0;
+        spriteRenderer.sprite = deathSprite;
+        StartCoroutine(DeathAnimation());
     }
     IEnumerator DeathAnimation()
     {
@@ -115,6 +136,20 @@ public class Enemy : Entity
         }
 
         target = player.gameObject;
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && (enemyType==1 || enemyType==4))
+        {
+            istouchingPlayer = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && (enemyType == 1 || enemyType == 4))
+        {
+            istouchingPlayer = false;
+        }
     }
 
 }
