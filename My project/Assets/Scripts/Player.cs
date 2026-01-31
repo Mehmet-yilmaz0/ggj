@@ -1,14 +1,18 @@
 using NUnit;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class Player : Entity
 {
     public List<Mask> masks;
     public Mask wearedMask;
-    [SerializeField]LayerMask enemyLayer;
+    [SerializeField] LayerMask enemyLayer;
     Rigidbody2D rb;
     int lastButton = 0;//1sað,2sol,3yukarý,4aþaðý
+    [SerializeField] GameObject noMaskAttackSprite;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,13 +37,16 @@ public class Player : Entity
     }
     void UseSkill()
     {
-        if (Input.GetKeyDown(KeyCode.E)) 
+        if (wearedMask != null)
         {
-            wearedMask.UseSkill('e');
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            wearedMask.UseSkill('q');
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                wearedMask.UseSkill('e');
+            }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                wearedMask.UseSkill('q');
+            }
         }
     }
     void ChangeMaskKey()
@@ -142,12 +149,31 @@ public class Player : Entity
             Entity entity = GetClosestEnemy();
             if (entity != null)
             {
+                StartCoroutine(NoMaskAttackCoroutine(transform.position, entity.transform.position));
                 TekliHasar(entity);
             }
         }
         else
         {
             wearedMask.BaseAttack();
+        }
+    }
+    IEnumerator NoMaskAttackCoroutine(Vector2 startpos,Vector2 endpos)
+    {
+        float duration = 0.5f;
+        float timer = 0;
+        while (timer < duration)
+        {
+            noMaskAttackSprite.transform.position=Vector3.Lerp(startpos,endpos,timer/duration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        timer = 0;
+        while (timer < duration)
+        {
+            noMaskAttackSprite.transform.position = Vector3.Lerp(endpos, startpos, timer / duration);
+            timer += Time.deltaTime;
+            yield return null;
         }
     }
     public Entity GetClosestEnemy()

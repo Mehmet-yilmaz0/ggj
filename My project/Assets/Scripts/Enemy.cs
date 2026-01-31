@@ -80,6 +80,7 @@ public class Enemy : Entity
         {
             color.a= Mathf.Lerp(1f, 0f, timer / duration);
             spriteRenderer.color=color;
+            timer += Time.deltaTime;
             yield return null;
         }
         Destroy(this);//object pooling kullanýlacaksa deðiþtir-despawn noktasý
