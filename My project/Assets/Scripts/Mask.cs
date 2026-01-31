@@ -74,16 +74,16 @@ public abstract class Mask : MonoBehaviour
     {
         switch (c)
         {
-            case 'j':
-                if(timer > 10f)
+            case 'e':
+                if(timer > 15f)
                     SkillAttack1();
                 break;
-            case 'k':
-                if (timer > 20f && maskIndex==1)
+            case 'q':
+                if (timer > 30f && maskIndex==1)
                     SkillAttack2();
                 break;
         }
-        if (timer > 20f && maskIndex != 1)
+        if (timer > 30f && maskIndex != 1)
             SkillAttack2();
     }
     public abstract void BaseAttack();

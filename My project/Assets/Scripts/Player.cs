@@ -6,7 +6,7 @@ public class Player : Entity
 {
     public List<Mask> masks;
     public Mask wearedMask;
-    LayerMask enemyLayer;
+    [SerializeField]LayerMask enemyLayer;
     Rigidbody2D rb;
     int lastButton = 0;//1sað,2sol,3yukarý,4aþaðý
     private void Start()
@@ -25,6 +25,18 @@ public class Player : Entity
         if (attackTimer > 0)
             attackTimer -= Time.deltaTime;
         else attackTimer = 0;
+        UseSkill();
+    }
+    void UseSkill()
+    {
+        if (Input.GetKeyDown(KeyCode.E)) 
+        {
+            wearedMask.UseSkill('e');
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            wearedMask.UseSkill('q');
+        }
     }
     void ChangeMaskKey()
     {
