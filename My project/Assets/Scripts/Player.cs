@@ -149,7 +149,7 @@ public class Player : Entity
             Entity entity = GetClosestEnemy();
             if (entity != null)
             {
-                StartCoroutine(NoMaskAttackCoroutine(transform.position, entity.transform.position));
+                StartCoroutine(NoMaskAttackCoroutine( entity.transform.position));
                 TekliHasar(entity);
             }
         }
@@ -158,20 +158,20 @@ public class Player : Entity
             wearedMask.BaseAttack();
         }
     }
-    IEnumerator NoMaskAttackCoroutine(Vector2 startpos,Vector2 endpos)
+    IEnumerator NoMaskAttackCoroutine(Vector2 endpos)
     {
-        float duration = 0.5f;
+        float duration = 0.1f;
         float timer = 0;
         while (timer < duration)
         {
-            noMaskAttackSprite.transform.position=Vector3.Lerp(startpos,endpos,timer/duration);
+            noMaskAttackSprite.transform.position=Vector3.Lerp(transform.position,endpos,timer/duration);
             timer += Time.deltaTime;
             yield return null;
         }
         timer = 0;
         while (timer < duration)
         {
-            noMaskAttackSprite.transform.position = Vector3.Lerp(endpos, startpos, timer / duration);
+            noMaskAttackSprite.transform.position = Vector3.Lerp(endpos, transform.position, timer / duration);
             timer += Time.deltaTime;
             yield return null;
         }

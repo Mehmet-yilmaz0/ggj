@@ -20,7 +20,6 @@ public abstract class Entity : MonoBehaviour
             if (_health <= 0 && !isDead)
             {
                 _health = 0;
-                isDead = true;
                 Death();
             }
         }
