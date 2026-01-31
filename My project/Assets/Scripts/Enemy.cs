@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 public class Enemy : Entity
@@ -8,12 +9,14 @@ public class Enemy : Entity
     public float rangeBetweenPlayer;
     Rigidbody2D rb;
     bool canAttack = false;
+
     private void Start()
     {
         rb=GetComponent<Rigidbody2D>();
     }
     private void Update()
     {
+        attackTimer-= Time.deltaTime;
         FindPlayer();
         Move();
     }
@@ -23,10 +26,11 @@ public class Enemy : Entity
     }
     public void SendAttack()
     {
-        GameObject sendingAttack=AttackParticlePool.instance.Spawn(transform.position, transform.rotation);
-        sendingAttack.GetComponent<AttackParticle>().Init(this);
-
-
+        if (canAttack && attackTimer <= 0)
+        {
+            GameObject sendingAttack = AttackParticlePool.instance.Spawn(transform.position, transform.rotation);
+            sendingAttack.GetComponent<AttackParticle>().Init(this, target.transform.position);
+        }
     }
     public override void Death()
     {
