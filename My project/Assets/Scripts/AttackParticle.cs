@@ -5,29 +5,32 @@ public class AttackParticle : MonoBehaviour
     Enemy sender;
     Vector2 direction;
     float speed = 5f;
-    public void Init(Enemy enemy,Vector2 dir)
+    float maxDistance = 10f;
+    Vector2 startPos;
+
+    public void Init(Enemy enemy, Vector2 targetPos)
     {
         sender = enemy;
-        direction = dir;
+        startPos = transform.position;
+        direction = (targetPos - startPos).normalized;
     }
+
     private void Update()
     {
-        if (direction != null)
+        transform.position += (Vector3)(direction * speed * Time.deltaTime);
+
+        if (Vector2.Distance(startPos, transform.position) > maxDistance)
         {
-            Vector2 control=sender.transform.position-transform.position;
-            if (control.x < 10 && control.y < 10) 
-            {
-                transform.position += (Vector3)(direction * speed * Time.deltaTime);
-            }
-            else
-            {
-                AttackParticlePool.instance.Despawn(this.gameObject);
-            }
+            AttackParticlePool.instance.Despawn(gameObject);
         }
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
+        {
             sender.Attack(collision.gameObject.GetComponent<Player>());
+            AttackParticlePool.instance.Despawn(gameObject);
+        }
     }
 }
