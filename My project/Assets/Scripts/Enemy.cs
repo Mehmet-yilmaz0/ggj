@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Threading;
 using UnityEngine;
 
@@ -9,16 +10,23 @@ public class Enemy : Entity
     public float rangeBetweenPlayer;
     Rigidbody2D rb;
     bool canAttack = false;
-
+    bool isDeath = false;
+    [SerializeField] Sprite deathSprite;
+    SpriteRenderer spriteRenderer;
     private void Start()
     {
         rb=GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void Update()
     {
-        attackTimer-= Time.deltaTime;
-        FindPlayer();
-        Move();
+        if (!isDeath)
+        {
+            attackTimer -= Time.deltaTime;
+            FindPlayer();
+            Move();
+            Death();
+        }
     }
     public override void Attack(Entity entity, float bonusattack = 0)
     {
@@ -34,9 +42,27 @@ public class Enemy : Entity
     }
     public override void Death()
     {
-        
+        if (health <= 0)
+        {
+            isDeath = true;
+            health = 0;
+            spriteRenderer.sprite = deathSprite;
+            DeathAnimation();
+        }
     }
-
+    IEnumerator DeathAnimation()
+    {
+        float duration = 2f;
+        float timer = 0f;
+        Color color = spriteRenderer.color;
+        while (timer <= duration)
+        {
+            color.a= Mathf.Lerp(1f, 0f, timer / duration);
+            spriteRenderer.color=color;
+            yield return null;
+        }
+        Destroy(this);//object pooling kullanýlacaksa deðiþtir-despawn noktasý
+    }
     public override void Move()
     {
         if (target != null)
