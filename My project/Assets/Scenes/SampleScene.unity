@@ -75855,6 +75855,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 134832458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1442097479 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1899660540817776332, guid: 5592fc9bb4bbeb5459ed7b68d520b2ad, type: 3}
+  m_PrefabInstance: {fileID: 7911128893790437625}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1583271055
 GameObject:
   m_ObjectHideFlags: 0
@@ -130738,6 +130743,18 @@ PrefabInstance:
       value: a2
       objectReference: {fileID: 0}
     - target: {fileID: 6164435832657261314, guid: 984e5699099d3c14fa712233a01d5fa9, type: 3}
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 1442097479}
+    - target: {fileID: 6164435832657261314, guid: 984e5699099d3c14fa712233a01d5fa9, type: 3}
+      propertyPath: _speed
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6164435832657261314, guid: 984e5699099d3c14fa712233a01d5fa9, type: 3}
+      propertyPath: MoveIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6164435832657261314, guid: 984e5699099d3c14fa712233a01d5fa9, type: 3}
       propertyPath: waepons.Array.size
       value: 33
       objectReference: {fileID: 0}
@@ -130876,6 +130893,10 @@ PrefabInstance:
     - target: {fileID: 6874686445951917663, guid: 984e5699099d3c14fa712233a01d5fa9, type: 3}
       propertyPath: m_Name
       value: a4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6992394595988296222, guid: 984e5699099d3c14fa712233a01d5fa9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8005902062445423929, guid: 984e5699099d3c14fa712233a01d5fa9, type: 3}
       propertyPath: m_Name
