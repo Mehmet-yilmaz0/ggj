@@ -11,7 +11,7 @@ public class bossK : Boss
     [Header("Auto Attack Settings")]
     [SerializeField] private float autoAttackRange = 2.5f;
     [SerializeField, Range(0f, 1f)] private float fxBiasToTarget = 0.8f;
-    public GameObject Dead;
+    public Sprite Dead;
     [Header("Auto Attack FX (Assign in Inspector)")]
     [SerializeField] private GameObject autoAttackAnimation;
 
