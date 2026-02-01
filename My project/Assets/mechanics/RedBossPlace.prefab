@@ -6733,6 +6733,7 @@ Transform:
   m_Children:
   - {fileID: 923423033840213433}
   - {fileID: 5715163176361683913}
+  - {fileID: 3718615884174539171}
   - {fileID: 5786882396990942320}
   - {fileID: 3851281221272473626}
   m_Father: {fileID: 0}
@@ -7474,14 +7475,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7818239130615989711}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -12.162795, y: 5.375947, z: -0.028914679}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5347528698490491328}
   - {fileID: 2879400857591072448}
-  m_Father: {fileID: 5786882396990942320}
+  m_Father: {fileID: 5314716988205783072}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8035461201674417221
 GameObject:
@@ -8240,6 +8241,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: boss
       objectReference: {fileID: 0}
+    - target: {fileID: -2253911629886400664, guid: 9a15f1dfeae07e24191a3f2465c47254, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: 9a15f1dfeae07e24191a3f2465c47254, type: 3}
       propertyPath: m_SortingOrder
       value: 3
@@ -8289,9 +8294,6 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7878350319992209165, guid: 9a15f1dfeae07e24191a3f2465c47254, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3718615884174539171}
-    - targetCorrespondingSourceObject: {fileID: 7878350319992209165, guid: 9a15f1dfeae07e24191a3f2465c47254, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2870792319757043334}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 9a15f1dfeae07e24191a3f2465c47254, type: 3}
@@ -8328,7 +8330,7 @@ MonoBehaviour:
   isDead: 0
   attackTimer: 0
   MoveIndex: 1
-  canMove: 0
+  canMove: 1
   Target: {fileID: 0}
   states:
   - {fileID: 771270514619000383}
@@ -8373,8 +8375,8 @@ MonoBehaviour:
   - {fileID: 0}
   autoAttackRange: 2.5
   fxBiasToTarget: 0.8
-  fxActiveTime: 0.25
   autoAttackAnimation: {fileID: 0}
+  bigAttackStepDelay: 0.5
 --- !u!1001 &4602597138966759735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8699,15 +8701,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 19d385cf98767044699e0838c08a4e13, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 19d385cf98767044699e0838c08a4e13, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.236
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 19d385cf98767044699e0838c08a4e13, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.16
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 19d385cf98767044699e0838c08a4e13, type: 3}
       propertyPath: m_LocalPosition.z

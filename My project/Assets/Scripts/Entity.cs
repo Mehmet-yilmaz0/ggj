@@ -21,6 +21,7 @@ public abstract class Entity : MonoBehaviour
             {
                 _health = 0;
                 Death();
+                isDead = true;
             }
         }
     }

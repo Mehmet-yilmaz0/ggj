@@ -5,7 +5,7 @@ using UnityEngine;
 public class Boss : Entity
 {
     public bool MoveIndex = false;
-    [SerializeField] private bool canMove = false;
+    [SerializeField] protected bool canMove = false;
     public GameObject Target;
     public List<GameObject> states = new List<GameObject>();
 
@@ -13,7 +13,7 @@ public class Boss : Entity
 
     private int _currentStateIndex = 0;
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         canMove = false;
         StartCoroutine(EnableDelay());
