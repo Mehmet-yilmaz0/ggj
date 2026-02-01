@@ -17,7 +17,7 @@ public class blast : MonoBehaviour
         col.radius = 0.05f;
     }
 
-    protected void OnEnable()
+    void OnEnable()
     {
         col.radius = 0.05f;
         exploding = true;
