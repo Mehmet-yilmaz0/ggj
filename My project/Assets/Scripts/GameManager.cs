@@ -18,10 +18,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject blackBlockPrefab;
 
     [Header("Settings")]
-    public float maxDistance = 15f; 
+    public float maxDistance = 15f;
     public int maxBlock = 15;
-    public float spawnInterval = 5f;
+    public float spawnInterval = 2f;
     public float minSpawnRadius = 5f;
+
+    [Header("Wall Detection")]
+    public LayerMask grounLayer; // Unity Editörden 'groun' layerýný seçmelisin
+    public float enemyRadius = 0.5f; // Düþmanýn kapladýðý alan (çarpýþma yarýçapý)
+    public GameObject blockParent;
 
     private void Start()
     {
@@ -30,10 +35,10 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnRoutine()
     {
-        while (true) 
+        while (true)
         {
             SpawnController();
-            yield return new WaitForSeconds(spawnInterval); 
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
@@ -49,40 +54,48 @@ public class GameManager : MonoBehaviour
     {
         float distToZone = Vector2.Distance(player.transform.position, zonePosition);
 
-        if (distToZone > maxDistance)
-        {
-            return;
-        }
+        if (distToZone > maxDistance) return;
 
-        int countAroundPlayer = player.GetComponent<Player>().GetClosestEnemies(360f, 100f).Count;
-        Debug.Log(countAroundPlayer);
+        int countAroundPlayer = player.GetComponent<Player>().GetClosestEnemies(360f, 10f).Count;
 
         if (countAroundPlayer >= maxBlock) return;
 
         float safeDistance = Mathf.Max(1f, distToZone);
-
         float distanceFactor = Mathf.Pow(safeDistance, 0.5f);
-
         int spawnCount = (int)((maxBlock - countAroundPlayer) / distanceFactor);
 
         if (spawnCount <= 0 && maxBlock > countAroundPlayer) spawnCount = 1;
 
         for (int i = 0; i < spawnCount; i++)
         {
-            Vector2 randomPos = GetRandomPosAround();
-            Instantiate(blockPrefab, randomPos, Quaternion.identity);
+            Vector2? validPos = GetValidSpawnPosition();
+
+            if (validPos != null)
+            {
+                Instantiate(blockPrefab, validPos.Value, Quaternion.identity,blockParent.transform);
+            }
         }
     }
 
-    Vector2 GetRandomPosAround()
+    Vector2? GetValidSpawnPosition()
     {
+        int maxAttempts = 10; 
 
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            Vector2 candidatePos = GetRawRandomPos();
+
+            Collider2D hit = Physics2D.OverlapCircle(candidatePos, enemyRadius, grounLayer);
+            if(hit!=null) return candidatePos;
+        }
+
+        return null;
+    }
+
+    Vector2 GetRawRandomPos()
+    {
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
-
         float distance = minSpawnRadius + Random.Range(0f, 3f);
-
-        Vector2 spawnPos = (Vector2)player.transform.position + (randomDirection * distance);
-
-        return spawnPos;
+        return (Vector2)player.transform.position + (randomDirection * distance);
     }
 }

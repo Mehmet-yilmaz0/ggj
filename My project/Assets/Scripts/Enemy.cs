@@ -19,7 +19,7 @@ public class Enemy : Entity
 
     bool canAttack = false;
     public bool istouchingPlayer = false;
-
+    public bool isTouchingWall = false;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -167,6 +167,10 @@ public class Enemy : Entity
             istouchingPlayer = true;
             canAttack = true;
         }
+        if (collision.gameObject.CompareTag("wall"))
+        {
+            isTouchingWall = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -175,6 +179,10 @@ public class Enemy : Entity
         {
             istouchingPlayer = false;
             canAttack = false;
+        }
+        if (collision.gameObject.CompareTag("wall"))
+        {
+            isTouchingWall = false;
         }
     }
 }
