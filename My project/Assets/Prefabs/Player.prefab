@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 100
-  _attackDamage: 10
+  _attackDamage: 25
   _attackSpeed: 0.2
   _attackRange: 1
   _speed: 2.5

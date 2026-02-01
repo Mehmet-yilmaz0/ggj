@@ -50,7 +50,7 @@ public class bossK : Boss
     public void AutoAttack()
     {
         if (Target == null || isDead == true) return;
-        if (autoAttackAnimation == null) return;
+        if (autoAttackAnimation == null ) return;
 
         Entity targetEntity = Target.GetComponent<Entity>();
         if (targetEntity == null) return;
