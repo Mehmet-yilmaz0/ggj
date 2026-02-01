@@ -103,6 +103,7 @@ public class Enemy : Entity
         float timer = 0f;
         Color color = spriteRenderer.color;
         this.gameObject.GetComponent<Collider2D>().isTrigger = true;
+        gameObject.layer = 0;
         while (timer <= duration)
         {
             color.a = Mathf.Lerp(1f, 0f, timer / duration);

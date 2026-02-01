@@ -176,11 +176,13 @@ public class Player : Entity
             yield return null;
         }
     }
-    public Entity GetClosestEnemy()
+    public Entity GetClosestEnemy(float overrideRange = -1)
     {
+        float range = overrideRange > 0 ? overrideRange : attackRange;
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
-            attackRange,
+            range,
             enemyLayer
         );
 
@@ -189,6 +191,8 @@ public class Player : Entity
 
         foreach (var hit in hits)
         {
+            if (hit.transform == transform) continue;
+
             Entity ent = hit.GetComponent<Entity>();
             if (ent == null) continue;
 
@@ -201,27 +205,30 @@ public class Player : Entity
         }
         return closest;
     }
+
     public List<Entity> GetClosestEnemies(float rangeAngle, float rangeBonus = 0)
     {
         List<Entity> result = new List<Entity>();
+        float totalRange = attackRange + rangeBonus;
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
-            attackRange+rangeBonus,
+            totalRange,
             enemyLayer
         );
 
         if (hits.Length == 0) return result;
 
-        Entity closest = GetClosestEnemy();
+        Entity closest = GetClosestEnemy(totalRange);
 
         if (closest == null) return result;
 
- 
         Vector2 baseDir = (closest.transform.position - transform.position).normalized;
 
         foreach (var hit in hits)
         {
+            if (hit.transform == transform) continue;
+
             Entity ent = hit.GetComponent<Entity>();
             if (ent == null) continue;
 
