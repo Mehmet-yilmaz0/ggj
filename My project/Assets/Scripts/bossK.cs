@@ -49,7 +49,7 @@ public class bossK : Boss
 
     public void AutoAttack()
     {
-        if (Target == null) return;
+        if (Target == null || isDead == true) return;
         if (autoAttackAnimation == null) return;
 
         Entity targetEntity = Target.GetComponent<Entity>();
@@ -75,18 +75,21 @@ public class bossK : Boss
 
     public void BigAttack()
     {
-        MoveIndex = false;
+        if(isDead != null)
+        {
+            MoveIndex = false;
 
-        // üst üste çaðrýlýrsa önceki diziyi durdur (çifte tetiklemeyi engeller)
-        if (_bigAttackRoutine != null)
-            StopCoroutine(_bigAttackRoutine);
+            // üst üste çaðrýlýrsa önceki diziyi durdur (çifte tetiklemeyi engeller)
+            if (_bigAttackRoutine != null)
+                StopCoroutine(_bigAttackRoutine);
 
-        _bigAttackRoutine = StartCoroutine(BigAttackSequence());
+            _bigAttackRoutine = StartCoroutine(BigAttackSequence());
+        }
     }
 
     private IEnumerator BigAttackSequence()
     {
-        if (waepons == null || waepons.Count == 0)
+        if (waepons == null || waepons.Count == 0 || isDead == true)
         {
             _bigAttackRoutine = null;
             yield break;
@@ -118,7 +121,7 @@ public class bossK : Boss
     public override void Attack(Entity entity, float bonusattack = 0)
     {
         attackTimer = attackSpeed;
-        entity.GetDamage(attackDamage + bonusattack);
+        if(isDead != true) entity.GetDamage(attackDamage + bonusattack);
     }
 
     public override void Death()
@@ -126,7 +129,6 @@ public class bossK : Boss
         exit.SetActive(true);
         canMove = false;
         isDead = true;
-        Dead.SetActive(true);
-        this.gameObject.GetComponent<SpriteRenderer>().color.WithAlpha(0);
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = Dead;
     }
 }
