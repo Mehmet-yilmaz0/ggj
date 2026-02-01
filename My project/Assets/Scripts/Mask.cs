@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Mask : MonoBehaviour
 {
+    public List<Sprite> forms;
     public Player player;
     public float timer = 0;
     public bool isOn;
@@ -43,7 +46,7 @@ public abstract class Mask : MonoBehaviour
                 }
             }
         }
-        
+        maskController();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -85,6 +88,21 @@ public abstract class Mask : MonoBehaviour
         }
         if (timer > 30f && maskIndex != 1)
             SkillAttack2();
+    }
+    public void maskController()
+    {
+        if (timer < 15f)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[0];
+        }
+        else if(timer > 15f && timer < 30f)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[1];
+        }
+        else
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[2];
+        }
     }
     public abstract void BaseAttack();
     public abstract void SkillAttack1();

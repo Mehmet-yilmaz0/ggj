@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class RedMask : Mask
 {
+    List<Sprite> forms;
     public override void BaseAttack()
     {
         List<Entity> list = player.GetClosestEnemies(90);
