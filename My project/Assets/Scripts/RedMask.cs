@@ -10,7 +10,7 @@ public class RedMask : Mask
         if (list != null && list.Count > 0)
         {
             player.AlanHasar(list);
-            baseAttack.transform.position=player.transform.position-list[0].transform.position;
+            baseAttack.transform.localPosition=player.transform.position-list[0].transform.position;
             baseAttack.SetActive(true);
         }
     }
