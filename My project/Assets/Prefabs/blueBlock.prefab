@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5523c8953b1c2418d24010571bfdfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 30
+  _health: 5
   _attackDamage: 5
   _attackSpeed: 2
   _attackRange: 2
@@ -116,6 +116,7 @@ MonoBehaviour:
   rangeBetweenPlayer: 1.5
   deathSprite: {fileID: -1039697344500932645, guid: d930b811251b3c141875bcccc84c5102, type: 3}
   enemyType: 2
+  istouchingPlayer: 0
 --- !u!50 &2793434059389753470
 Rigidbody2D:
   serializedVersion: 5

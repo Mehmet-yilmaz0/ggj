@@ -33,4 +33,8 @@ public class AttackParticle : MonoBehaviour
             AttackParticlePool.instance.Despawn(gameObject);
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
 }
