@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class bossK : Boss
 {
@@ -39,8 +40,7 @@ public class bossK : Boss
         yield return new WaitForSeconds(13);
         yield return BigAttackSequence();
     }
-
-    void Update()
+   void Update()
     {
         if(isDead) return;
         AutoAttack();
@@ -75,7 +75,7 @@ public class bossK : Boss
 
     public void BigAttack()
     {
-        if(isDead != null)
+        if(!isDead)
         {
             MoveIndex = false;
 
