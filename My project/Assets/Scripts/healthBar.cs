@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class healthBar : MonoBehaviour
 {
@@ -8,12 +9,12 @@ public class healthBar : MonoBehaviour
 
     public Entity player;
 
-    private SpriteRenderer sr;
+    private Image sr;
     private int _currentIndex = -1;
 
     void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
+        sr = GetComponent<Image>();
     }
 
     void Update()

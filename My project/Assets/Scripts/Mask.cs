@@ -14,10 +14,11 @@ public abstract class Mask : MonoBehaviour
     public float attackBonus;
     public float skill1Timer;
     public float skill2Timer;
+    public bool isGot = false;
 
     private void Update()
     {
-        if (!isOn) return;
+        if (!isOn || !isGot) return;
         if (isOn)
         {
             timer += Time.deltaTime;
@@ -53,7 +54,7 @@ public abstract class Mask : MonoBehaviour
         if (collision.gameObject.CompareTag("player"))
         {
             player = collision.gameObject.GetComponent<Player>();
-            if (!player.masks.Contains(this)) player.masks[maskIndex] = this;
+            isGot= true;
             WearMask();
         }
     }

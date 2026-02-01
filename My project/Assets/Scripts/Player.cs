@@ -2,8 +2,10 @@ using NUnit;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.SearchService;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : Entity
 {
@@ -16,10 +18,6 @@ public class Player : Entity
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        masks=new List<Mask>();
-        masks.Add(null);
-        masks.Add(null);
-        masks.Add(null);
     }
     private void Update()
     {
@@ -140,7 +138,7 @@ public class Player : Entity
 
     public override void Death()
     {
-        
+        SceneManager.LoadScene(0);
     }
     void BaseAttack()
     {

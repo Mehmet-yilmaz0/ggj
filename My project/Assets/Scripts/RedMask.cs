@@ -39,4 +39,5 @@ public class RedMask : Mask
             skill2Timer = 10f;
         }
     }
+   
 }
