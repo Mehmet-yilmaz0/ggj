@@ -7,7 +7,7 @@ using UnityEngine;
 public class bossK : Boss
 {
     public List<GameObject> waepons = new List<GameObject>();
-
+    public GameObject exit;
     [Header("Auto Attack Settings")]
     [SerializeField] private float autoAttackRange = 2.5f;
     [SerializeField, Range(0f, 1f)] private float fxBiasToTarget = 0.8f;
@@ -123,6 +123,7 @@ public class bossK : Boss
 
     public override void Death()
     {
+        exit.SetActive(true);
         canMove = false;
         isDead = true;
         Dead.SetActive(true);
