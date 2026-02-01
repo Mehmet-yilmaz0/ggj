@@ -58,31 +58,35 @@ public class UiManager : MonoBehaviour
             if (maskObj.activeSelf) maskObj.SetActive(false);
             return;
         }
-
         if (!maskObj.activeSelf) maskObj.SetActive(true);
 
         float timer = maskData.timer;
+        Debug.Log(timer);
         Image maskImage = maskObj.GetComponent<Image>();
         Image barImage = barObj.GetComponent<Image>();
 
         if (timer >= 30f)
         {
-            if (levels.Length > 2) maskImage.sprite = levels[2];
+            maskImage.sprite = levels[2];
         }
         else if (timer >= 15f)
         {
-            if (levels.Length > 1) maskImage.sprite = levels[1];
+            maskImage.sprite = levels[1];
         }
         else
         {
-            if (levels.Length > 0) maskImage.sprite = levels[0];
+            maskImage.sprite = levels[0];
         }
 
-        int barIndex = (int)(timer / 3f);
+        int rawIndex = (int)(timer / 3f);
 
-        barIndex = Mathf.Clamp(barIndex, 0, bars.Length - 1);
+        int maxIndex = bars.Length - 1;
 
-        barImage.sprite = bars[barIndex];
+        rawIndex = Mathf.Clamp(rawIndex, 0, maxIndex);
+
+        int reversedIndex = maxIndex - rawIndex;
+
+        barImage.sprite = bars[reversedIndex];
     }
     public void Continue()
     {

@@ -15,10 +15,16 @@ public abstract class Mask : MonoBehaviour
     public float skill1Timer;
     public float skill2Timer;
     public bool isGot = false;
+    public GameObject Skill1;
+    public GameObject Skill2;
 
+    private void Start()
+    {
+        maskController();
+    }
     private void Update()
     {
-        if (!isOn || !isGot) return;
+        if (!isGot) return;
         if (isOn)
         {
             timer += Time.deltaTime;
@@ -48,19 +54,25 @@ public abstract class Mask : MonoBehaviour
             }
         }
         maskController();
+        transform.position=player.transform.position;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             player = collision.gameObject.GetComponent<Player>();
             isGot= true;
+            player.masks[maskIndex - 1] = this;
             WearMask();
+
         }
     }
     public void WearMask()
     {
-        player.wearedMask.UnWearMask();
+        if(player.wearedMask!=null) player.wearedMask.UnWearMask();
+        Color open = gameObject.GetComponent<SpriteRenderer>().color;
+        open.a = 1f;
+        gameObject.GetComponent<SpriteRenderer>().color = open;
         player.wearedMask = this;
         player.attackDamage += attackBonus;
         player.attackRange += rangeBonus;
@@ -69,6 +81,9 @@ public abstract class Mask : MonoBehaviour
     }
     public void UnWearMask()
     {
+        Color close= gameObject.GetComponent<SpriteRenderer>().color;
+        close.a = 0f;
+        gameObject.GetComponent<SpriteRenderer>().color=close;
         player.attackDamage -= attackBonus;
         player.attackRange -= rangeBonus;
         player.attackSpeed -= attackSpeedBonus;
@@ -92,17 +107,24 @@ public abstract class Mask : MonoBehaviour
     }
     public void maskController()
     {
-        if (timer < 15f)
+        if (isGot)
         {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[0];
-        }
-        else if(timer > 15f && timer < 30f)
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[1];
+            if (timer < 15f)
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[1];
+            }
+            else if (timer > 15f && timer < 30f)
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[2];
+            }
+            else
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[3];
+            }
         }
         else
         {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[2];
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = forms[0];
         }
     }
     public abstract void BaseAttack();

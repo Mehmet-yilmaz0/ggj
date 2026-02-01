@@ -13,6 +13,7 @@ public class GreenMask : Mask
     {
         player.Dash();
         skill1Timer = 5f;
+        Skill1.gameObject.SetActive(true);
     }
 
     public override void SkillAttack2()
@@ -22,5 +23,6 @@ public class GreenMask : Mask
             player.health+=1;
         }
         skill2Timer = 1;
+        Skill2.gameObject.SetActive(true);
     }
 }

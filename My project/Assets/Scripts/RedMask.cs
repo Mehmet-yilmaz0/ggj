@@ -26,7 +26,8 @@ public class RedMask : Mask
             {
                 player.health += list.Count * 5;
             }
-            skill2Timer = 5f;
+            skill1Timer = 5f;
+            Skill1.gameObject.SetActive(true);
         }
     }
 
@@ -37,6 +38,7 @@ public class RedMask : Mask
         {
             player.AlanHasar(list);
             skill2Timer = 10f;
+            Skill2.gameObject.SetActive(true);
         }
     }
    

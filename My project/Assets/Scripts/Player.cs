@@ -69,6 +69,7 @@ public class Player : Entity
             case 1:
                 if (masks[0] != null)
                 {
+                    wearedMask.UnWearMask();
                     wearedMask = masks[0];
                     wearedMask.WearMask();
                 }
@@ -76,6 +77,7 @@ public class Player : Entity
             case 2:
                 if (masks[1] != null)
                 {
+                    wearedMask.UnWearMask();
                     wearedMask = masks[1];
                     wearedMask.WearMask();
                 }
@@ -83,6 +85,7 @@ public class Player : Entity
             case 3:
                 if (masks[2] != null)
                 {
+                    wearedMask.UnWearMask();
                     wearedMask = masks[2];
                     wearedMask.WearMask();
                 }

@@ -19,6 +19,7 @@ public class BlueMask : Mask
         {
             player.AlanHasar(list);
             skill1Timer = 5f;
+            Skill1.gameObject.SetActive(true);
         }
     }
 
@@ -29,6 +30,7 @@ public class BlueMask : Mask
         {
             player.AlanHasar(list,-3);
             skill2Timer = 0.1f;
+            Skill2.gameObject.SetActive(true);
         }
     }
 }
