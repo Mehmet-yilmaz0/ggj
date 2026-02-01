@@ -3,12 +3,15 @@ using UnityEngine;
 
 public class RedMask : Mask
 {
+    [SerializeField] GameObject baseAttack;
     public override void BaseAttack()
     {
         List<Entity> list = player.GetClosestEnemies(90);
         if (list != null && list.Count > 0)
         {
             player.AlanHasar(list);
+            baseAttack.transform.position=player.transform.position-list[0].transform.position;
+            baseAttack.SetActive(true);
         }
     }
 
